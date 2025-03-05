@@ -65,7 +65,6 @@ class ParamsSelector:
 
         return chunks
     
-    # @staticmethod
     def _get_bi_encoder(self, encoder_name: str) -> tuple[SentenceTransformer, int]:
         raw_model = Transformer(encoder_name)
 
@@ -80,7 +79,6 @@ class ParamsSelector:
         bi_encoder = SentenceTransformer(
             modules=[raw_model, pooling_model], 
         )
-        # return bi_encoder, bi_encoder_dim
         return self._EncoderInfo(bi_encoder, bi_encoder_dim)
 
     @staticmethod
@@ -136,7 +134,6 @@ class ParamsSelector:
         top_chunks = [x.payload['chunk'] for x in search_results]
         top_files = list(set([x.payload['file'] for x in search_results]))
 
-        # return top_chunks, top_files
         return self._SearchResult(top_chunks, top_files)
     
     def _get_llm_answer(self, query: str, chunks_join: str, max_new_tokens: int, temperature: float, top_p: float) -> str:
@@ -211,7 +208,6 @@ class ParamsSelector:
 
     def test(self, encoder_name: str, chunk_size: int, chunk_overlap: int, n_top_cos: int, max_new_tokens: int, temperature: float, top_p: float) -> Tuple[pd.DataFrame, float]:
         try:
-            # bi_encoder, vec_size = self._get_bi_encoder(encoder_name)
             bi_encoder_info = self._get_bi_encoder(encoder_name)
             files = self.df['Файл'].unique()
             self._files_to_vecdb(files, bi_encoder_info.bi_encoder, bi_encoder_info.bi_encoder_dim, chunk_size, chunk_overlap)
@@ -222,7 +218,6 @@ class ParamsSelector:
                 file_name = row['Файл']
                 context = row['Контекст']
 
-                # top_chunks, top_files = self._vec_search(bi_encoder_info.bi_encoder, query, n_top_cos)
                 search_result = self._vec_search(bi_encoder_info.bi_encoder, query, n_top_cos)
                 row['top_files'] = search_result.top_files
                 row['top_chunks'] = search_result.top_chunks
@@ -243,7 +238,6 @@ class ParamsSelector:
 
             score = result['llm_score'].mean()
 
-            # return result, score
             return self._TestResult(result, score)
         
         except Exception as e:
