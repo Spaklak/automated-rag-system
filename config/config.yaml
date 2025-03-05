@@ -1,0 +1,32 @@
+# Настройки для работы с БД
+database:
+  path_bd: 'url'
+  api_key: 'key'
+  coll_name: 'Testing'
+
+# Паттерны для очистки строки при лемматизации
+patterns: '[«»°!#$%&''()*+,./:;<=>?@[\]^_`{|}~—"\-]+'
+
+# Работа с API
+url: 'http://127.0.0.1:1234/v1/chat/completions'
+
+# Путь к файлам
+text_folder_path: '../data/files'
+
+# Параметры Optuna
+optuna_params:
+  encoder_name:
+    - 'cointegrated/rubert-tiny2'
+    - 'cointegrated/LaBSE-en-ru'
+  chunk_size_min: 100
+  chunk_size_max: 2000
+  chunk_overlap_min: 50
+  chunk_overlap_max: 600
+  n_top_cos_min: 1
+  n_top_cos_max: 8
+  max_new_tokens_min: 100
+  max_new_tokens_max: 1600
+  temperature_min: 0.01
+  temperature_max: 0.99
+  top_p_min: 0.01
+  top_p_max: 0.99
